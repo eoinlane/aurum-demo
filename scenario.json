@@ -1,0 +1,64 @@
+{
+  "generated_at": "2026-03-24",
+  "engine_version": "0.2.0",
+  "scenario": {
+    "id": "early_engagement_hidden_opportunity",
+    "title": "The Hidden Opportunity",
+    "narrative": "Siobh\u00e1n Kelly scores Medium priority on the overall wealth index \u2014 the kind of client a traditional system would deprioritise. But the Aurum morphological engine tells a different story: \u20ac8,500 in monthly income, perfect credit across two loans, and only \u20ac60,500 in investable assets at 43. Nearly \u20ac5,000 a month is accumulating in a current account. The engine surfaces a High-urgency early engagement signal hidden inside a Medium-priority profile. This is the wealth manager's window."
+  },
+  "client": {
+    "name": "Siobh\u00e1n Kelly",
+    "age": 43,
+    "life_stage": "mid_career",
+    "life_stage_label": "Mid-Career",
+    "occupation": "Senior Solicitor",
+    "location": "Dublin"
+  },
+  "engagement_signal": {
+    "overall_wealth_score": 47.3,
+    "engagement_priority": "Medium",
+    "liquidity_score": 58.5,
+    "solvency_score": 100.0,
+    "prosperity_score": 6.0,
+    "metrics": {
+      "liquidity_efficiency": 0.4147058823529412,
+      "obligation_ratio": 0.3764705882352941,
+      "credit_reliability": 1.0,
+      "total_assets": 60500.0
+    }
+  },
+  "recommendations": [
+    {
+      "state": "Liquidity",
+      "area": "FCF Conversion",
+      "suggestion": "Initiate an investment portfolio conversation \u2014 the client has strong cash flow that is not yet being deployed into wealth-building assets.",
+      "reason": "Strong liquidity metrics with a low asset base (Prosperity score: 6/100) is the classic early-engagement signal. Act now before this capital drifts to competitors.",
+      "urgency": "High",
+      "product_hint": "Managed investment fund / regular investment plan"
+    },
+    {
+      "state": "Solvency",
+      "area": "Credit Optimisation",
+      "suggestion": "Present preferential rate mortgage or credit products \u2014 the client's credit profile is excellent.",
+      "reason": "All active loans are in good standing with no missed payments. This client qualifies for best-rate products and represents a low credit risk.",
+      "urgency": "Medium",
+      "product_hint": "Preferential rate mortgage / personal loan"
+    },
+    {
+      "state": "Prosperity",
+      "area": "Wealth Building",
+      "suggestion": "Develop an urgent asset accumulation plan \u2014 current prosperity position is critically low relative to life stage.",
+      "reason": "Prosperity score of 6/100 (total assets: \u20ac60,500) is very low. Without intervention, this client will face significant wealth shortfall at retirement.",
+      "urgency": "Medium",
+      "product_hint": "Diversified investment portfolio / pension plan"
+    },
+    {
+      "state": "Cross-State",
+      "area": "Wealth Seeding",
+      "suggestion": "Begin the investment conversation \u2014 solvency is stable enough to support a modest regular investment alongside existing debt commitments.",
+      "reason": "Stable solvency (100/100) in the mid-career stage with low prosperity (6/100) means the client is managing debt well but not yet building wealth. A small regular investment now compounds significantly by retirement.",
+      "urgency": "Medium",
+      "product_hint": "Regular savings plan / low-cost index fund"
+    }
+  ]
+}
