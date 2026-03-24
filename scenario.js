@@ -5,7 +5,7 @@ const SCENARIO_DATA = {
   "scenario": {
     "id": "early_engagement_hidden_opportunity",
     "title": "The Hidden Opportunity",
-    "narrative": "Siobh\u00e1n Kelly scores Medium priority on the overall wealth index \u2014 the kind of client a traditional system would deprioritise. But the Aurum morphological engine tells a different story: \u20ac8,500 in monthly income, perfect credit across two loans, and only \u20ac60,500 in investable assets at 43. Nearly \u20ac5,000 a month is accumulating in a current account. The engine surfaces a High-urgency early engagement signal hidden inside a Medium-priority profile. This is the wealth manager's window."
+    "narrative": "Siobh\u00e1n Kelly scores Medium priority on the overall wealth index \u2014 the kind of client a traditional system would deprioritise. But the Aurum wealth engine tells a different story: \u20ac8,500 in monthly income, perfect credit across two loans, and only \u20ac60,500 in investable assets at 43. Nearly \u20ac5,000 a month is accumulating in a current account. The engine surfaces a High-urgency early engagement signal hidden inside a Medium-priority profile. This is the wealth manager's window."
   },
   "client": {
     "name": "Siobh\u00e1n Kelly",
