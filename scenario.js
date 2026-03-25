@@ -77,5 +77,6 @@ const SCENARIO_DATA = {
       "urgency": "Low",
       "product_hint": null
     }
-  ]
+  ],
+  "briefing": null
 };

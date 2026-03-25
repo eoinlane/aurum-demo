@@ -72,6 +72,7 @@ const COHORT_DATA = {
           "product_hint": null
         }
       ],
+      "briefing": null,
       "occupation": "Senior Solicitor",
       "location": "Dublin",
       "narrative": "Siobh\u00e1n Kelly scores Low priority on the overall wealth index \u2014 exactly the kind of client a traditional system would never call. But the Aurum wealth engine tells a different story: \u20ac8,500 in monthly income, perfect credit across two loans, and only \u20ac60,500 in investable assets at 43. Nearly \u20ac5,000 a month is accumulating in a current account. The engine surfaces a High-urgency FCF conversion signal hidden inside a Low-priority profile. This is the wealth manager's window."
@@ -111,7 +112,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-ABF10AC2",
@@ -156,7 +158,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-2D39F5AB",
@@ -201,7 +204,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-0587212A",
@@ -238,7 +242,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-E338E970",
@@ -283,7 +288,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-57EDA214",
@@ -320,7 +326,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-4D604263",
@@ -357,7 +364,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-C08A6073",
@@ -394,7 +402,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-3E13272E",
@@ -455,7 +464,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-FE5D4775",
@@ -508,7 +518,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-68279DA5",
@@ -553,7 +564,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-EFDE01B6",
@@ -606,7 +618,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-F57FBD8C",
@@ -651,7 +664,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-D75BA979",
@@ -704,7 +718,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-FD1548D3",
@@ -749,7 +764,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-FA057B26",
@@ -786,7 +802,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-67C84558",
@@ -823,7 +840,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-4CC772C3",
@@ -860,7 +878,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-779B8C2F",
@@ -905,7 +924,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-5213DCB1",
@@ -942,7 +962,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-BC8960A9",
@@ -987,7 +1008,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-ABF10AC2",
@@ -1032,7 +1054,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-2D39F5AB",
@@ -1085,7 +1108,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-0587212A",
@@ -1138,7 +1162,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-E338E970",
@@ -1191,7 +1216,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-57EDA214",
@@ -1228,7 +1254,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-4D604263",
@@ -1281,7 +1308,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-C08A6073",
@@ -1334,7 +1362,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-3E13272E",
@@ -1395,7 +1424,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-FE5D4775",
@@ -1448,7 +1478,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-68279DA5",
@@ -1501,7 +1532,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-EFDE01B6",
@@ -1562,7 +1594,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-F57FBD8C",
@@ -1607,7 +1640,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-D75BA979",
@@ -1668,7 +1702,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-FD1548D3",
@@ -1721,7 +1756,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-FA057B26",
@@ -1774,7 +1810,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-67C84558",
@@ -1819,7 +1856,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-4CC772C3",
@@ -1872,7 +1910,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-779B8C2F",
@@ -1917,7 +1956,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-5213DCB1",
@@ -1970,7 +2010,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-BC8960A9",
@@ -2007,7 +2048,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-ABF10AC2",
@@ -2068,7 +2110,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-2D39F5AB",
@@ -2145,7 +2188,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-0587212A",
@@ -2222,7 +2266,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-E338E970",
@@ -2275,7 +2320,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-57EDA214",
@@ -2344,7 +2390,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-4D604263",
@@ -2413,7 +2460,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-C08A6073",
@@ -2466,7 +2514,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-3E13272E",
@@ -2519,7 +2568,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Pension contribution increase / AVC plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-FE5D4775",
@@ -2572,7 +2622,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Pension contribution increase / AVC plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-68279DA5",
@@ -2641,7 +2692,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-EFDE01B6",
@@ -2702,7 +2754,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-F57FBD8C",
@@ -2779,7 +2832,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-D75BA979",
@@ -2848,7 +2902,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-FD1548D3",
@@ -2917,7 +2972,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-FA057B26",
@@ -2954,7 +3010,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Diversified investment portfolio / pension plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-67C84558",
@@ -3015,7 +3072,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-4CC772C3",
@@ -3076,7 +3134,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-779B8C2F",
@@ -3137,7 +3196,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-5213DCB1",
@@ -3206,7 +3266,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-BC8960A9",
@@ -3251,7 +3312,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Full wealth management mandate / discretionary portfolio"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-ABF10AC2",
@@ -3304,7 +3366,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-2D39F5AB",
@@ -3373,7 +3436,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-0587212A",
@@ -3418,7 +3482,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Enhanced pension contribution / AVCs"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-E338E970",
@@ -3471,7 +3536,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-57EDA214",
@@ -3524,7 +3590,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-4D604263",
@@ -3577,7 +3644,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-C08A6073",
@@ -3630,7 +3698,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-3E13272E",
@@ -3691,7 +3760,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-FE5D4775",
@@ -3752,7 +3822,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-68279DA5",
@@ -3805,7 +3876,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-EFDE01B6",
@@ -3858,7 +3930,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-F57FBD8C",
@@ -3919,7 +3992,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-D75BA979",
@@ -3996,7 +4070,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-FD1548D3",
@@ -4065,7 +4140,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-FA057B26",
@@ -4102,7 +4178,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Pension contribution increase / AVC plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-67C84558",
@@ -4163,7 +4240,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-4CC772C3",
@@ -4216,7 +4294,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Pension contribution increase / AVC plan"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-779B8C2F",
@@ -4269,7 +4348,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-5213DCB1",
@@ -4322,7 +4402,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-BC8960A9",
@@ -4375,7 +4456,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Full wealth management mandate / discretionary portfolio"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-ABF10AC2",
@@ -4436,7 +4518,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-2D39F5AB",
@@ -4497,7 +4580,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-0587212A",
@@ -4550,7 +4634,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Full wealth management mandate / discretionary portfolio"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-E338E970",
@@ -4611,7 +4696,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-57EDA214",
@@ -4672,7 +4758,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-4D604263",
@@ -4733,7 +4820,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-C08A6073",
@@ -4794,7 +4882,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-3E13272E",
@@ -4855,7 +4944,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-FE5D4775",
@@ -4916,7 +5006,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-68279DA5",
@@ -4977,7 +5068,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-EFDE01B6",
@@ -5038,7 +5130,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-F57FBD8C",
@@ -5099,7 +5192,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-D75BA979",
@@ -5168,7 +5262,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-FD1548D3",
@@ -5221,7 +5316,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-FA057B26",
@@ -5282,7 +5378,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-67C84558",
@@ -5343,7 +5440,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-4CC772C3",
@@ -5388,7 +5486,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Equity release / property investment restructuring"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-779B8C2F",
@@ -5441,7 +5540,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-5213DCB1",
@@ -5494,7 +5594,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-BC8960A9",
@@ -5547,7 +5648,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-ABF10AC2",
@@ -5600,7 +5702,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-2D39F5AB",
@@ -5653,7 +5756,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-0587212A",
@@ -5698,7 +5802,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Full wealth management mandate / discretionary portfolio"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-E338E970",
@@ -5751,7 +5856,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-57EDA214",
@@ -5804,7 +5910,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-4D604263",
@@ -5857,7 +5964,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-C08A6073",
@@ -5910,7 +6018,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-3E13272E",
@@ -5963,7 +6072,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-FE5D4775",
@@ -6016,7 +6126,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-68279DA5",
@@ -6069,7 +6180,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-EFDE01B6",
@@ -6122,7 +6234,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-F57FBD8C",
@@ -6175,7 +6288,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-D75BA979",
@@ -6236,7 +6350,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-FD1548D3",
@@ -6289,7 +6404,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-FA057B26",
@@ -6342,7 +6458,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-67C84558",
@@ -6395,7 +6512,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-4CC772C3",
@@ -6440,7 +6558,8 @@ const COHORT_DATA = {
           "urgency": "Medium",
           "product_hint": "Full wealth management mandate / discretionary portfolio"
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-779B8C2F",
@@ -6493,7 +6612,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     },
     {
       "customer_id": "SYN-5213DCB1",
@@ -6546,7 +6666,8 @@ const COHORT_DATA = {
           "urgency": "Low",
           "product_hint": null
         }
-      ]
+      ],
+      "briefing": null
     }
   ]
 };
