@@ -39,7 +39,10 @@
       </div>
       <div class="flex items-center gap-3">
         <span id="cohort-summary" class="text-xs text-slate-400 hidden sm:block"></span>
-        <span class="text-xs font-medium px-3 py-1 rounded-full bg-slate-50 text-slate-500">Engine v0.6.0</span>
+        <div class="flex items-center gap-1 text-[11px]">
+          <a href="v0.6/" class="px-2.5 py-1 rounded-full bg-slate-50 text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">v0.6</a>
+          <span class="px-2.5 py-1 rounded-full bg-[#92711A] text-white font-semibold">v0.7</span>
+        </div>
       </div>
     </div>
   </header>
@@ -174,20 +177,51 @@
       return _benchmarks;
     }
 
-    // ── State box: amount + proportion + cohort comparison ────────────
-    function renderStateBox(cfg) {
-      const { label, subtitle, score, amount, amountLabel, secondary,
-              propValue, propLabel, fillColor, headerBg, textColor,
-              dotBg, stage, scoreKey } = cfg;
-      const propPct  = Math.min(100, Math.max(0, (propValue||0)*100)).toFixed(1);
-      const b        = getStageBenchmarks()[stage]?.[scoreKey] || { mean:50, q75:75 };
-      const meanPos  = b.mean.toFixed(1);
-      const q75Pos   = b.q75.toFixed(1);
-      const clientPos = Math.min(99.5, Math.max(0.5, score)).toFixed(1);
+    // ── Three-box stats: amount + proportion per state, per life stage ─
+    let _boxStats = {};
+    function getBoxStatsForStage(stage, amountFn, propFn, cacheKey) {
+      const key = `${stage}_${cacheKey}`;
+      if (_boxStats[key]) return _boxStats[key];
+      const cohort = COHORT_DATA.individuals.filter(c => c.life_stage === stage);
+      const amounts = cohort.map(amountFn)
+        .filter(v => v != null && isFinite(v) && v >= 0)
+        .sort((a, b) => a - b);
+      const props = cohort.map(propFn)
+        .filter(v => v != null && isFinite(v))
+        .map(v => Math.min(1, Math.max(0, v)))
+        .sort((a, b) => a - b);
+      const na = amounts.length, np = props.length;
+      _boxStats[key] = {
+        amount: {
+          mean: na ? amounts.reduce((s, v) => s + v, 0) / na : 0,
+          q75:  na ? amounts[Math.floor(na * 0.75)] : 0,
+        },
+        prop: {
+          mean: np ? props.reduce((s, v) => s + v, 0) / np : 0.5,
+          q75:  np ? props[Math.floor(np * 0.75)] : 0.7,
+        },
+      };
+      return _boxStats[key];
+    }
+
+    // ── Three-box panel: amount × proportion vs. stage cohort ─────────
+    function renderThreeBoxPanel({ label, subtitle, headerBg, textColor, fillHex,
+        stage, scoreKey, score, clientAmount, clientProp, amountFmt, propLabel,
+        secondary, amountFn, propFn, cacheKey }) {
+
+      const stats   = getBoxStatsForStage(stage, amountFn, propFn, cacheKey);
+      const maxAmt  = Math.max(stats.amount.mean, stats.amount.q75, clientAmount, 1);
+      const hPct    = v => Math.max(4, Math.min(100, (v / maxAmt) * 100));
+      const wPct    = v => Math.max(10, Math.min(95, v * 100));
+
+      const boxes = [
+        { h: hPct(stats.amount.mean),  w: wPct(stats.prop.mean),  bg: '#e2e8f0',  amt: stats.amount.mean,  prop: stats.prop.mean,  lbl: 'Avg',     bold: false },
+        { h: hPct(stats.amount.q75),   w: wPct(stats.prop.q75),   bg: '#d4a01750', amt: stats.amount.q75,   prop: stats.prop.q75,   lbl: 'Top 25%', bold: false },
+        { h: hPct(clientAmount),       w: wPct(clientProp),       bg: fillHex,    amt: clientAmount,       prop: clientProp,       lbl: 'You',     bold: true  },
+      ];
 
       return `
         <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex-1 min-w-0">
-          <!-- Header -->
           <div class="px-4 pt-4 pb-3 ${headerBg} border-b border-slate-100/80">
             <div class="flex items-center justify-between">
               <span class="text-[10px] font-bold ${textColor} uppercase tracking-widest">${label}</span>
@@ -195,40 +229,33 @@
             </div>
             <p class="text-[10px] text-slate-400 mt-0.5">${subtitle}</p>
           </div>
-          <!-- Amount -->
           <div class="px-4 pt-4">
-            <p class="text-[10px] text-slate-400 mb-0.5">${amountLabel}</p>
-            <p class="text-xl font-bold text-slate-900">${amount}</p>
-            ${secondary ? `<p class="text-[11px] text-slate-400 mt-0.5">${secondary}</p>` : ''}
-          </div>
-          <!-- Proportion bar -->
-          <div class="px-4 pt-3">
-            <div class="flex items-center justify-between text-[10px] text-slate-400 mb-1">
-              <span>${propLabel}</span>
-              <span class="font-medium text-slate-600">${propPct}%</span>
-            </div>
-            <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
-              <div class="prop-bar h-full ${fillColor} rounded-full" style="width:${propPct}%"></div>
-            </div>
-          </div>
-          <!-- Cohort comparison track -->
-          <div class="px-4 pt-3 pb-4">
-            <p class="text-[9px] text-slate-400 mb-1.5 uppercase tracking-wide">vs. Life-Stage Cohort (0–100)</p>
-            <div class="relative h-5 rounded-full bg-slate-50 border border-slate-100 overflow-hidden">
-              <!-- mean line -->
-              <div class="absolute top-0 bottom-0 w-px bg-slate-300" style="left:${meanPos}%"></div>
-              <!-- q75 line -->
-              <div class="absolute top-0 bottom-0 w-px bg-[#B8860B]" style="left:${q75Pos}%"></div>
-              <!-- client dot -->
-              <div class="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full border-2 border-white shadow ${dotBg} -translate-x-1/2"
-                   style="left:${clientPos}%"></div>
-            </div>
-            <div class="flex items-center gap-3 mt-1.5 text-[9px] text-slate-400">
-              <span class="flex items-center gap-1"><span class="w-3 h-px bg-slate-300 inline-block"></span>Avg ${parseFloat(meanPos).toFixed(0)}</span>
-              <span class="flex items-center gap-1"><span class="w-3 h-px bg-[#B8860B] inline-block"></span>Top 25% ${parseFloat(q75Pos).toFixed(0)}</span>
-              <span class="ml-auto font-medium text-slate-600">You: ${parseFloat(clientPos).toFixed(0)}</span>
+            <p class="text-[9px] text-slate-400 mb-3 uppercase tracking-wide">Amount × proportion — vs. ${STAGE_LABELS[stage]} cohort</p>
+            <div class="flex items-stretch gap-2" style="height:96px">
+              ${boxes.map(({ h, w, bg, amt, prop, lbl, bold }) => `
+                <div class="flex-1 flex flex-col min-w-0">
+                  <div class="flex-1 flex items-end justify-center">
+                    <div style="height:${h.toFixed(1)}%;width:${w.toFixed(1)}%;background:${bg};border-radius:3px 3px 0 0;min-height:4px;transition:height 0.5s ease,width 0.5s ease"></div>
+                  </div>
+                  <div class="pt-1.5 text-center leading-tight">
+                    <div class="text-[9px] ${bold ? 'font-semibold text-slate-700' : 'text-slate-400'}">${lbl}</div>
+                    <div class="text-[9px] ${bold ? 'font-medium text-slate-600' : 'text-slate-300'} truncate">${amountFmt(amt)}</div>
+                    <div class="text-[8px] text-slate-300">${(prop * 100).toFixed(0)}%</div>
+                  </div>
+                </div>`).join('')}
             </div>
           </div>
+          <div class="px-4 pt-2 pb-3">
+            <div class="flex flex-wrap items-center justify-between gap-x-3 text-[9px] text-slate-400">
+              <span class="truncate">${propLabel}</span>
+              <div class="flex gap-2 flex-shrink-0">
+                <span>Avg ${(stats.prop.mean * 100).toFixed(0)}%</span>
+                <span style="color:#B8860B">Top ${(stats.prop.q75 * 100).toFixed(0)}%</span>
+                <span class="font-medium text-slate-600">You ${(clientProp * 100).toFixed(0)}%</span>
+              </div>
+            </div>
+          </div>
+          ${secondary ? `<div class="px-4 pb-4 -mt-1"><p class="text-[10px] text-slate-400">${secondary}</p></div>` : ''}
         </div>`;
     }
 
@@ -497,13 +524,6 @@
       const metaLine  = [c.age, c.occupation||null, c.location||null, STAGE_LABELS[c.life_stage]].filter(Boolean).join(' · ');
       const isLate    = c.life_stage==='wind_down'||c.life_stage==='retired';
 
-      // Proportions for each state box
-      const liqProp = m.obligation_ratio||0;                                  // obligations / income
-      const solProp = (m.total_monthly_debt_service!=null && m.monthly_income)
-                      ? m.total_monthly_debt_service/m.monthly_income
-                      : (m.obligation_ratio||0)*0.8;                          // proxy if no arrangement data
-      const proProp = Math.min(1,(m.total_assets||0)/1_000_000);              // assets / €1M reference
-
       // Transfer signals from recommendations
       const fcfRec     = recs.find(r=>r.area==='FCF Conversion'&&r.urgency==='High');
       const pensionRec = recs.find(r=>(r.area||'').toLowerCase().includes('pension')&&r.urgency==='High');
@@ -572,61 +592,68 @@
             <h3 class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-3">Tri-State Analysis</h3>
 
             <!-- Liquidity (top, full width) -->
-            ${renderStateBox({
-              label:'Liquidity', subtitle:'Cash flow & purchasing power',
-              score: c.liquidity_score,
-              amount: euros(m.monthly_income),
-              amountLabel: 'Monthly Income',
-              secondary: m.monthly_fcf!=null ? `Free Cash Flow: ${euros(m.monthly_fcf)}/mo${fcfPct?' ('+fcfPct+'% of income)':''}` : null,
-              propValue: liqProp,
-              propLabel: 'Obligations as % of income',
-              fillColor: 'bg-blue-400', headerBg: 'bg-blue-50/40',
-              textColor: 'text-blue-600', dotBg: 'bg-blue-500',
-              stage: c.life_stage, scoreKey: 'liquidity_score',
+            ${renderThreeBoxPanel({
+              label: 'Liquidity', subtitle: 'Cash flow & purchasing power',
+              headerBg: 'bg-blue-50/40', textColor: 'text-blue-600', fillHex: '#60a5fa',
+              stage: c.life_stage, scoreKey: 'liquidity_score', score: c.liquidity_score,
+              clientAmount: m.monthly_income || 0,
+              clientProp: m.monthly_income ? Math.max(0, (m.monthly_fcf || 0) / m.monthly_income) : 0,
+              amountFmt: v => euros(v) + '/mo',
+              propLabel: 'Free cash flow as % of income',
+              secondary: m.monthly_fcf != null ? `Free Cash Flow: ${euros(m.monthly_fcf)}/mo${fcfPct ? ' (' + fcfPct + '% of income)' : ''}` : null,
+              amountFn: c => c.metrics.monthly_income || 0,
+              propFn: c => c.metrics.monthly_income ? Math.max(0, (c.metrics.monthly_fcf || 0) / c.metrics.monthly_income) : 0,
+              cacheKey: 'liquidity',
             })}
 
-            <!-- Transfer arrow row -->
-            <div class="flex items-center justify-around py-2 text-[10px]">
-              <div class="flex items-center gap-1.5 ${fcfRec?'text-amber-600 font-semibold':'text-slate-300'}">
-                <svg class="w-3 h-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z"/>
-                </svg>
-                ${fcfRec ? `FCF ${euros(m.monthly_fcf)}/mo → Investment` : `FCF ${euros(m.monthly_fcf)}/mo idle`}
-              </div>
-              <div class="w-px h-4 bg-slate-200"></div>
-              <div class="flex items-center gap-1.5 ${pensionRec?'text-purple-600 font-semibold':'text-slate-300'}">
-                <svg class="w-3 h-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z"/>
-                </svg>
-                ${pensionRec ? `Pension shortfall ${euros(m.pension_annual_shortfall)}/yr` : `Pension gap ${euros(m.pension_gap)}`}
-              </div>
-            </div>
+            <!-- Transfer arrow row — stroke scales with FCF amount -->
+            ${(function() {
+              const fcfAmt = m.monthly_fcf || 0;
+              const sw = Math.max(1.5, Math.min(4, fcfAmt / 300)).toFixed(1);
+              return `<div class="flex items-center justify-around py-2 text-[10px]">
+                <div class="flex items-center gap-1.5 ${fcfRec ? 'text-amber-600 font-semibold' : 'text-slate-300'}">
+                  <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="${sw}">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z"/>
+                  </svg>
+                  ${fcfRec ? `FCF ${euros(fcfAmt)}/mo → Investment` : `FCF ${euros(fcfAmt)}/mo idle`}
+                </div>
+                <div class="w-px h-4 bg-slate-200"></div>
+                <div class="flex items-center gap-1.5 ${pensionRec ? 'text-purple-600 font-semibold' : 'text-slate-300'}">
+                  <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="${sw}">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z"/>
+                  </svg>
+                  ${pensionRec ? `Pension shortfall ${euros(m.pension_annual_shortfall)}/yr` : `Pension gap ${euros(m.pension_gap)}`}
+                </div>
+              </div>`;
+            })()}
 
             <!-- Solvency + Prosperity (side by side) -->
             <div class="flex gap-3">
-              ${renderStateBox({
-                label:'Solvency', subtitle:'Loans, mortgage & credit',
-                score: c.solvency_score,
-                amount: m.total_outstanding_debt!=null ? euros(m.total_outstanding_debt) : '—',
-                amountLabel: 'Outstanding Debt',
-                secondary: m.total_monthly_debt_service!=null ? `Service: ${euros(m.total_monthly_debt_service)}/mo · Reliability ${pct(m.credit_reliability,0)}` : null,
-                propValue: solProp,
-                propLabel: 'Debt service as % of income',
-                fillColor: 'bg-emerald-400', headerBg: 'bg-emerald-50/40',
-                textColor: 'text-emerald-600', dotBg: 'bg-emerald-500',
-                stage: c.life_stage, scoreKey: 'solvency_score',
+              ${renderThreeBoxPanel({
+                label: 'Solvency', subtitle: 'Loans, mortgage & credit',
+                headerBg: 'bg-emerald-50/40', textColor: 'text-emerald-600', fillHex: '#34d399',
+                stage: c.life_stage, scoreKey: 'solvency_score', score: c.solvency_score,
+                clientAmount: m.total_outstanding_debt || 0,
+                clientProp: m.monthly_income ? Math.max(0, 1 - (m.total_monthly_debt_service || 0) / m.monthly_income) : 0.5,
+                amountFmt: v => euros(v),
+                propLabel: 'Income headroom after debt service',
+                secondary: m.total_monthly_debt_service != null ? `Service: ${euros(m.total_monthly_debt_service)}/mo · Reliability ${pct(m.credit_reliability, 0)}` : null,
+                amountFn: c => c.metrics.total_outstanding_debt || 0,
+                propFn: c => c.metrics.monthly_income ? Math.max(0, 1 - (c.metrics.total_monthly_debt_service || 0) / c.metrics.monthly_income) : 0.5,
+                cacheKey: 'solvency',
               })}
-              ${renderStateBox({
-                label:'Prosperity', subtitle:'Investments, property & pension',
-                score: c.prosperity_score,
-                amount: euros(m.total_assets),
-                amountLabel: 'Total Assets',
-                secondary: m.prosperity_velocity!=null ? `Velocity: ${m.prosperity_velocity>=0?'+':''}${euros(m.prosperity_velocity)}/mo · Pension gap ${euros(m.pension_gap)}` : null,
-                propValue: proProp,
-                propLabel: 'Assets vs €1M reference',
-                fillColor: 'bg-purple-400', headerBg: 'bg-purple-50/40',
-                textColor: 'text-purple-600', dotBg: 'bg-purple-500',
-                stage: c.life_stage, scoreKey: 'prosperity_score',
+              ${renderThreeBoxPanel({
+                label: 'Prosperity', subtitle: 'Investments, property & pension',
+                headerBg: 'bg-purple-50/40', textColor: 'text-purple-600', fillHex: '#c084fc',
+                stage: c.life_stage, scoreKey: 'prosperity_score', score: c.prosperity_score,
+                clientAmount: m.total_assets || 0,
+                clientProp: Math.min(1, c.prosperity_score / 100),
+                amountFmt: v => euros(v),
+                propLabel: 'Wealth position within life-stage cohort',
+                secondary: m.prosperity_velocity != null ? `Velocity: ${m.prosperity_velocity >= 0 ? '+' : ''}${euros(m.prosperity_velocity)}/mo · Pension gap ${euros(m.pension_gap)}` : null,
+                amountFn: c => c.metrics.total_assets || 0,
+                propFn: c => Math.min(1, c.prosperity_score / 100),
+                cacheKey: 'prosperity',
               })}
             </div>
           </div>
