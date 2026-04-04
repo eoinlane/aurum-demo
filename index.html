@@ -41,7 +41,7 @@
         <span id="cohort-summary" class="text-xs text-slate-400 hidden sm:block"></span>
         <div class="flex items-center gap-1 text-[11px]">
           <a href="v0.6/" class="px-2.5 py-1 rounded-full bg-slate-50 text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">v0.6</a>
-          <span class="px-2.5 py-1 rounded-full bg-[#92711A] text-white font-semibold">v0.7</span>
+          <span class="px-2.5 py-1 rounded-full bg-[#92711A] text-white font-semibold">v0.8</span>
         </div>
       </div>
     </div>
@@ -516,6 +516,137 @@
       if(c) renderDetail(c);
     }
 
+    // ── Tri-State Breakdown: income allocation + wealth stack ─────────
+    function renderTriStateBreakdown(c) {
+      const m = c.metrics || {};
+      if (m.monthly_fixed_cost == null && m.available_credit == null && m.projected_yield_ratio == null) return '';
+
+      const income   = m.monthly_income || 0;
+      const fixed    = m.monthly_fixed_cost  || 0;
+      const luxury   = m.monthly_luxury_cost || 0;
+      const qol      = m.monthly_qol_cost    || 0;
+      const savings  = Math.max(0, m.monthly_savings || 0);
+      const debtSvc  = m.total_monthly_debt_service || 0;
+      const creditLim = m.credit_limit || 0;
+      const avlCredit = m.available_credit;
+      const totalAssets  = m.total_assets || 0;
+      const annualIncome = m.prosperity_annual_income;
+      const yieldRatio   = m.projected_yield_ratio;
+
+      const liqMax = Math.max(income, 1);
+      const bw = (v, max) => Math.min(100, Math.max(2, v / max * 100)).toFixed(1);
+      const dtiPct = income > 0 ? (debtSvc / income * 100) : 0;
+      const yieldPct = yieldRatio != null ? (yieldRatio * 100).toFixed(1) : null;
+
+      function hBar(label, valueStr, fillPct, colorClass) {
+        return `<div class="space-y-0.5">
+          <div class="flex justify-between items-baseline">
+            <span class="text-[10px] text-slate-400">${label}</span>
+            <span class="text-[10px] text-slate-300 font-medium tabular-nums">${valueStr}</span>
+          </div>
+          <div class="h-1.5 bg-slate-800 rounded-full overflow-hidden">
+            <div class="h-full rounded-full ${colorClass} transition-all duration-700" style="width:${fillPct}%"></div>
+          </div>
+        </div>`;
+      }
+
+      function slider(label, valueStr, rangeVal, max, color) {
+        return `<div>
+          <div class="flex justify-between text-[10px] mb-0.5">
+            <span class="text-slate-500">${label}</span>
+            <span class="font-medium" style="color:${color}">${valueStr}</span>
+          </div>
+          <input type="range" min="0" max="${max}" value="${Math.min(max, rangeVal).toFixed(0)}" disabled
+            class="w-full h-1 rounded-full opacity-60" style="accent-color:${color}">
+        </div>`;
+      }
+
+      // ── Liquidity column ──
+      const liqCol = `<div class="space-y-3">
+        <div>
+          <p class="text-[9px] font-semibold text-teal-400 uppercase tracking-widest mb-0.5">Liquidity</p>
+          <p class="text-[10px] text-slate-500">${euros(income)}/mo income</p>
+        </div>
+        <div class="space-y-2">
+          ${hBar('Fixed costs', euros(fixed),  bw(fixed, liqMax),   'bg-slate-500')}
+          ${hBar('Luxury',      euros(luxury),  bw(luxury, liqMax),  'bg-amber-500')}
+          ${hBar('Quality of life', euros(qol), bw(qol, liqMax),     'bg-teal-600')}
+          ${hBar('Savings',     euros(savings), bw(savings, liqMax), 'bg-teal-400')}
+        </div>
+        <div class="pt-1 border-t border-slate-800 space-y-2">
+          ${income > 0 ? slider('Luxury spend', (luxury/liqMax*100).toFixed(0)+'% of income', luxury/liqMax*100, 100, '#f59e0b') : ''}
+          ${income > 0 ? slider('Savings rate', (savings/liqMax*100).toFixed(0)+'% of income', savings/liqMax*100, 100, '#2dd4bf') : ''}
+        </div>
+      </div>`;
+
+      // ── Solvency column ──
+      const solvCol = `<div class="space-y-3">
+        <div>
+          <p class="text-[9px] font-semibold text-orange-400 uppercase tracking-widest mb-0.5">Solvency</p>
+          <p class="text-[10px] text-slate-500">Balance: ${euros(m.total_outstanding_debt)}</p>
+        </div>
+        <div class="space-y-2">
+          ${hBar('Monthly service', euros(debtSvc), Math.min(98, dtiPct * 2).toFixed(1), 'bg-orange-500')}
+          ${creditLim > 0 && avlCredit != null ? hBar('Available credit', euros(avlCredit), bw(avlCredit, creditLim), 'bg-emerald-500') : ''}
+          ${creditLim > 0 ? hBar('Credit facility', euros(creditLim), '98', 'bg-slate-700') : ''}
+        </div>
+        <div class="pt-1 border-t border-slate-800 space-y-2">
+          ${income > 0 ? slider('Debt-to-income', dtiPct.toFixed(0)+'% of income', dtiPct, 100, '#f97316') : ''}
+        </div>
+      </div>`;
+
+      // ── Prosperity column ──
+      const prospCol = `<div class="space-y-3">
+        <div>
+          <p class="text-[9px] font-semibold text-purple-400 uppercase tracking-widest mb-0.5">Prosperity</p>
+          <p class="text-[10px] text-slate-500">Assets: ${euros(totalAssets)}</p>
+        </div>
+        <div class="space-y-2">
+          ${hBar('Mark-to-market', euros(totalAssets), '80', 'bg-purple-600')}
+          ${annualIncome != null ? hBar('Yield income/yr', euros(annualIncome), Math.min(60, totalAssets > 0 ? annualIncome/totalAssets*500 : 0).toFixed(1), 'bg-purple-400') : ''}
+          ${m.pension_gap != null ? hBar('Pension gap', euros(m.pension_gap), Math.min(70, totalAssets > 0 ? m.pension_gap/totalAssets*80 : 30).toFixed(1), 'bg-rose-600') : ''}
+        </div>
+        <div class="pt-1 border-t border-slate-800">
+          ${yieldPct != null
+            ? slider('Projected yield', yieldPct+'% p.a.', parseFloat(yieldPct), 20, '#a855f7')
+            : '<p class="text-[10px] text-slate-600">No performing assets</p>'}
+        </div>
+      </div>`;
+
+      // ── Stacked income bar (top of panel) ──
+      const incomeBar = income > 0 && m.monthly_fixed_cost != null ? `
+        <div class="mb-5">
+          <div class="flex justify-between text-[10px] text-slate-500 mb-1.5">
+            <span>Income allocation</span>
+            <span class="text-slate-600">Fully allocated</span>
+          </div>
+          <div class="h-3 bg-slate-800 rounded-full overflow-hidden flex">
+            <div class="h-full bg-slate-500"   style="width:${bw(fixed, liqMax)}%"   title="Fixed: ${euros(fixed)}"></div>
+            <div class="h-full bg-amber-500/80" style="width:${bw(luxury, liqMax)}%" title="Luxury: ${euros(luxury)}"></div>
+            <div class="h-full bg-teal-600/80"  style="width:${bw(qol, liqMax)}%"    title="QoL: ${euros(qol)}"></div>
+            <div class="h-full bg-teal-400/80"  style="width:${bw(savings, liqMax)}%" title="Savings: ${euros(savings)}"></div>
+          </div>
+          <div class="flex gap-3 mt-1.5 flex-wrap">
+            <span class="flex items-center gap-1 text-[9px] text-slate-500"><span class="w-2 h-2 rounded-sm bg-slate-500 inline-block"></span>Fixed ${(fixed/liqMax*100).toFixed(0)}%</span>
+            <span class="flex items-center gap-1 text-[9px] text-slate-500"><span class="w-2 h-2 rounded-sm bg-amber-500/80 inline-block"></span>Luxury ${(luxury/liqMax*100).toFixed(0)}%</span>
+            <span class="flex items-center gap-1 text-[9px] text-slate-500"><span class="w-2 h-2 rounded-sm bg-teal-600/80 inline-block"></span>QoL ${(qol/liqMax*100).toFixed(0)}%</span>
+            <span class="flex items-center gap-1 text-[9px] text-slate-500"><span class="w-2 h-2 rounded-sm bg-teal-400/80 inline-block"></span>Savings ${(savings/liqMax*100).toFixed(0)}%</span>
+          </div>
+        </div>` : '';
+
+      return `
+        <!-- ── Tri-State Breakdown ────────────────────────────── -->
+        <div class="bg-slate-900 rounded-2xl border border-slate-800 shadow-sm p-6">
+          <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-4">Income &amp; Wealth Allocation</p>
+          ${incomeBar}
+          <div class="grid grid-cols-3 gap-5">
+            ${liqCol}
+            ${solvCol}
+            ${prospCol}
+          </div>
+        </div>`;
+    }
+
     // ── Main detail renderer ──────────────────────────────────────────
     function renderDetail(c) {
       const m   = c.metrics||{};
@@ -586,6 +717,8 @@
               </div>
             </div>
           </div>
+
+          ${renderTriStateBreakdown(c)}
 
           <!-- ── Tri-State Trident ──────────────────────────────── -->
           <div>

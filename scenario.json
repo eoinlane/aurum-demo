@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-30",
+  "generated_at": "2026-04-04",
   "engine_version": "0.6.0",
   "scenario": {
     "id": "early_engagement_hidden_opportunity",
@@ -35,7 +35,15 @@
       "pension_annual_shortfall": 55590.91,
       "net_asset_income": null,
       "total_monthly_debt_service": 2000.0,
-      "total_outstanding_debt": null
+      "total_outstanding_debt": null,
+      "monthly_fixed_cost": 3200.0,
+      "monthly_luxury_cost": 280.0,
+      "monthly_qol_cost": 45.0,
+      "monthly_savings": 4975.0,
+      "available_credit": 25000.0,
+      "credit_limit": 25000.0,
+      "prosperity_annual_income": null,
+      "projected_yield_ratio": null
     }
   },
   "recommendations": [
