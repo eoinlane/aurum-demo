@@ -41,7 +41,7 @@
         <span id="cohort-summary" class="text-xs text-slate-400 hidden sm:block"></span>
         <div class="flex items-center gap-1 text-[11px]">
           <a href="v0.6/" class="px-2.5 py-1 rounded-full bg-slate-50 text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">v0.6</a>
-          <span class="px-2.5 py-1 rounded-full bg-[#92711A] text-white font-semibold">v0.8</span>
+          <span class="px-2.5 py-1 rounded-full bg-[#92711A] text-white font-semibold">v0.9</span>
         </div>
       </div>
     </div>
@@ -204,10 +204,39 @@
       return _boxStats[key];
     }
 
+    // ── Sparkline: 12-month score trajectory ──────────────────────────
+    function renderSparkline(values, strokeHex, { width = 180, height = 32, pad = 3 } = {}) {
+      if (!values || values.length < 2) return '';
+      const vmin = 0, vmax = 100;
+      const xStep = (width - pad * 2) / (values.length - 1);
+      const y = v => pad + (1 - (v - vmin) / (vmax - vmin)) * (height - pad * 2);
+      const pts = values.map((v, i) => `${(pad + i * xStep).toFixed(1)},${y(v).toFixed(1)}`);
+      const polyline = pts.join(' ');
+      const areaPath = `M${pts[0]} L${pts.join(' L')} L${(pad + (values.length - 1) * xStep).toFixed(1)},${(height - pad).toFixed(1)} L${pad},${(height - pad).toFixed(1)} Z`;
+      const last = values[values.length - 1];
+      const first = values[0];
+      const delta = last - first;
+      const arrow = delta >= 0.5 ? '↑' : delta <= -0.5 ? '↓' : '→';
+      const deltaColor = delta >= 0.5 ? '#10b981' : delta <= -0.5 ? '#ef4444' : '#94a3b8';
+      const [cx, cy] = pts[pts.length - 1].split(',');
+      return `
+        <div class="flex items-center gap-2">
+          <svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none"
+               style="width:100%;height:${height}px;flex:1;min-width:0">
+            <path d="${areaPath}" fill="${strokeHex}" fill-opacity="0.08"/>
+            <polyline points="${polyline}" fill="none" stroke="${strokeHex}" stroke-width="1.5" stroke-linejoin="round"/>
+            <circle cx="${cx}" cy="${cy}" r="2.4" fill="${strokeHex}"/>
+          </svg>
+          <span class="text-[9px] font-semibold tabular-nums flex-shrink-0" style="color:${deltaColor}">
+            ${arrow} ${delta >= 0 ? '+' : ''}${delta.toFixed(1)}
+          </span>
+        </div>`;
+    }
+
     // ── Three-box panel: amount × proportion vs. stage cohort ─────────
     function renderThreeBoxPanel({ label, subtitle, headerBg, textColor, fillHex,
         stage, scoreKey, score, clientAmount, clientProp, amountFmt, propLabel,
-        secondary, amountFn, propFn, cacheKey }) {
+        secondary, amountFn, propFn, cacheKey, series }) {
 
       const stats   = getBoxStatsForStage(stage, amountFn, propFn, cacheKey);
       const maxAmt  = Math.max(stats.amount.mean, stats.amount.q75, clientAmount, 1);
@@ -220,6 +249,8 @@
         { h: hPct(clientAmount),       w: wPct(clientProp),       bg: fillHex,    amt: clientAmount,       prop: clientProp,       lbl: 'You',     bold: true  },
       ];
 
+      const sparkline = (series && series.length > 1) ? renderSparkline(series, fillHex) : '';
+
       return `
         <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex-1 min-w-0">
           <div class="px-4 pt-4 pb-3 ${headerBg} border-b border-slate-100/80">
@@ -229,6 +260,14 @@
             </div>
             <p class="text-[10px] text-slate-400 mt-0.5">${subtitle}</p>
           </div>
+          ${sparkline ? `
+          <div class="px-4 pt-3 pb-1">
+            <div class="flex items-center justify-between mb-0.5">
+              <span class="text-[9px] text-slate-400 uppercase tracking-wide">12-mo trend</span>
+              <span class="text-[9px] text-slate-300">${series[0].toFixed(0)} → ${series[series.length-1].toFixed(0)}</span>
+            </div>
+            ${sparkline}
+          </div>` : ''}
           <div class="px-4 pt-4">
             <p class="text-[9px] text-slate-400 mb-3 uppercase tracking-wide">Amount × proportion — vs. ${STAGE_LABELS[stage]} cohort</p>
             <div class="flex items-stretch gap-2" style="height:96px">
@@ -524,6 +563,12 @@
       const metaLine  = [c.age, c.occupation||null, c.location||null, STAGE_LABELS[c.life_stage]].filter(Boolean).join(' · ');
       const isLate    = c.life_stage==='wind_down'||c.life_stage==='retired';
 
+      // 12-month score series (Phase 1 time dimension)
+      const ts = c.time_series || [];
+      const liqSeries  = ts.map(pt => pt.liquidity_score);
+      const solSeries  = ts.map(pt => pt.solvency_score);
+      const proSeries  = ts.map(pt => pt.prosperity_score);
+
       // Transfer signals from recommendations
       const fcfRec     = recs.find(r=>r.area==='FCF Conversion'&&r.urgency==='High');
       const pensionRec = recs.find(r=>(r.area||'').toLowerCase().includes('pension')&&r.urgency==='High');
@@ -604,6 +649,7 @@
               amountFn: c => c.metrics.monthly_income || 0,
               propFn: c => c.metrics.monthly_income ? Math.max(0, (c.metrics.monthly_fcf || 0) / c.metrics.monthly_income) : 0,
               cacheKey: 'liquidity',
+              series: liqSeries,
             })}
 
             <!-- Transfer arrow row — stroke scales with FCF amount -->
@@ -641,6 +687,7 @@
                 amountFn: c => c.metrics.total_outstanding_debt || 0,
                 propFn: c => c.metrics.monthly_income ? Math.max(0, 1 - (c.metrics.total_monthly_debt_service || 0) / c.metrics.monthly_income) : 0.5,
                 cacheKey: 'solvency',
+                series: solSeries,
               })}
               ${renderThreeBoxPanel({
                 label: 'Prosperity', subtitle: 'Investments, property & pension',
@@ -654,6 +701,7 @@
                 amountFn: c => c.metrics.total_assets || 0,
                 propFn: c => Math.min(1, c.prosperity_score / 100),
                 cacheKey: 'prosperity',
+                series: proSeries,
               })}
             </div>
           </div>
