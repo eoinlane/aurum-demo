@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aurum — Wealth Intelligence Platform</title>
-  <link rel="stylesheet" href="tailwind.css?v=0.9.0" />
-  <script src="cohort.js?v=0.9.0"></script>
-  <script src="scenario.js?v=0.9.0"></script>
+  <link rel="stylesheet" href="tailwind.css?v=0.9.1" />
+  <script src="cohort.js?v=0.9.1"></script>
+  <script src="scenario.js?v=0.9.1"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     body { font-family: 'Inter', system-ui, sans-serif; }
@@ -204,32 +204,73 @@
       return _boxStats[key];
     }
 
-    // ── Sparkline: 12-month score trajectory ──────────────────────────
-    function renderSparkline(values, strokeHex, { width = 180, height = 32, pad = 3 } = {}) {
+    // ── Cohort time series: average score per stage at each time point ──
+    let _cohortTs = {};
+    function getCohortTimeSeries(stage, scoreKey) {
+      const key = `${stage}_${scoreKey}`;
+      if (_cohortTs[key]) return _cohortTs[key];
+      const peers = COHORT_DATA.individuals.filter(c => c.life_stage === stage && (c.time_series || []).length > 0);
+      if (peers.length === 0) { _cohortTs[key] = []; return []; }
+      const n = peers[0].time_series.length;
+      const avg = new Array(n).fill(0);
+      const counts = new Array(n).fill(0);
+      peers.forEach(p => {
+        p.time_series.forEach((pt, i) => {
+          if (i < n && pt[scoreKey] != null) {
+            avg[i] += pt[scoreKey];
+            counts[i] += 1;
+          }
+        });
+      });
+      _cohortTs[key] = avg.map((s, i) => counts[i] ? s / counts[i] : null);
+      return _cohortTs[key];
+    }
+
+    // ── Sparkline: 12-month score trajectory (client + cohort overlay) ─
+    function renderSparkline(values, strokeHex, cohort, { width = 180, height = 32, pad = 3 } = {}) {
       if (!values || values.length < 2) return '';
       const vmin = 0, vmax = 100;
-      const xStep = (width - pad * 2) / (values.length - 1);
+      const n = values.length;
+      const xStep = (width - pad * 2) / (n - 1);
       const y = v => pad + (1 - (v - vmin) / (vmax - vmin)) * (height - pad * 2);
-      const pts = values.map((v, i) => `${(pad + i * xStep).toFixed(1)},${y(v).toFixed(1)}`);
+      const xy = v => v.map((s, i) => `${(pad + i * xStep).toFixed(1)},${y(s).toFixed(1)}`);
+
+      const pts = xy(values);
       const polyline = pts.join(' ');
-      const areaPath = `M${pts[0]} L${pts.join(' L')} L${(pad + (values.length - 1) * xStep).toFixed(1)},${(height - pad).toFixed(1)} L${pad},${(height - pad).toFixed(1)} Z`;
-      const last = values[values.length - 1];
-      const first = values[0];
-      const delta = last - first;
+      const areaPath = `M${pts[0]} L${pts.join(' L')} L${(pad + (n - 1) * xStep).toFixed(1)},${(height - pad).toFixed(1)} L${pad},${(height - pad).toFixed(1)} Z`;
+      const [cx, cy] = pts[pts.length - 1].split(',');
+
+      // Optional cohort overlay
+      let cohortLayer = '';
+      let gapLabel = '';
+      if (cohort && cohort.length === n && cohort.every(v => v != null)) {
+        const cohortPts = xy(cohort).join(' ');
+        cohortLayer = `<polyline points="${cohortPts}" fill="none" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2 2" stroke-linejoin="round"/>`;
+        const gap = values[n - 1] - cohort[n - 1];
+        const startGap = values[0] - cohort[0];
+        const gapDelta = gap - startGap;
+        const widening = Math.abs(gap) > Math.abs(startGap);
+        const direction = gap >= 0 ? 'above' : 'below';
+        gapLabel = `<span class="text-[9px] text-slate-400 flex-shrink-0">vs cohort ${gap >= 0 ? '+' : ''}${gap.toFixed(0)}</span>`;
+      }
+
+      const delta = values[n - 1] - values[0];
       const arrow = delta >= 0.5 ? '↑' : delta <= -0.5 ? '↓' : '→';
       const deltaColor = delta >= 0.5 ? '#10b981' : delta <= -0.5 ? '#ef4444' : '#94a3b8';
-      const [cx, cy] = pts[pts.length - 1].split(',');
+
       return `
         <div class="flex items-center gap-2">
           <svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none"
                style="width:100%;height:${height}px;flex:1;min-width:0">
             <path d="${areaPath}" fill="${strokeHex}" fill-opacity="0.08"/>
+            ${cohortLayer}
             <polyline points="${polyline}" fill="none" stroke="${strokeHex}" stroke-width="1.5" stroke-linejoin="round"/>
             <circle cx="${cx}" cy="${cy}" r="2.4" fill="${strokeHex}"/>
           </svg>
           <span class="text-[9px] font-semibold tabular-nums flex-shrink-0" style="color:${deltaColor}">
             ${arrow} ${delta >= 0 ? '+' : ''}${delta.toFixed(1)}
           </span>
+          ${gapLabel}
         </div>`;
     }
 
@@ -249,7 +290,8 @@
         { h: hPct(clientAmount),       w: wPct(clientProp),       bg: fillHex,    amt: clientAmount,       prop: clientProp,       lbl: 'You',     bold: true  },
       ];
 
-      const sparkline = (series && series.length > 1) ? renderSparkline(series, fillHex) : '';
+      const cohortSeries = (series && series.length > 1) ? getCohortTimeSeries(stage, scoreKey) : [];
+      const sparkline = (series && series.length > 1) ? renderSparkline(series, fillHex, cohortSeries) : '';
 
       return `
         <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex-1 min-w-0">
@@ -264,7 +306,7 @@
           <div class="px-4 pt-3 pb-1">
             <div class="flex items-center justify-between mb-0.5">
               <span class="text-[9px] text-slate-400 uppercase tracking-wide">12-mo trend</span>
-              <span class="text-[9px] text-slate-300">${series[0].toFixed(0)} → ${series[series.length-1].toFixed(0)}</span>
+              <span class="text-[9px] text-slate-300">You ${series[0].toFixed(0)} → ${series[series.length-1].toFixed(0)}${cohortSeries.length ? ` · cohort avg dashed` : ''}</span>
             </div>
             ${sparkline}
           </div>` : ''}
