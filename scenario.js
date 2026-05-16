@@ -17,7 +17,7 @@ const SCENARIO_DATA = {
   },
   "engagement_signal": {
     "overall_wealth_score": 40.2,
-    "engagement_priority": "Medium",
+    "engagement_priority": "Low",
     "liquidity_score": 58.5,
     "solvency_score": 55.4,
     "prosperity_score": 19.6,
