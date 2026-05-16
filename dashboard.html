@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aurum — Wealth Intelligence Platform</title>
-  <link rel="stylesheet" href="tailwind.css?v=0.9.3" />
-  <script src="cohort.js?v=0.9.3"></script>
-  <script src="scenario.js?v=0.9.3"></script>
+  <link rel="stylesheet" href="tailwind.css?v=0.9.4" />
+  <script src="cohort.js?v=0.9.4"></script>
+  <script src="scenario.js?v=0.9.4"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     body { font-family: 'Inter', system-ui, sans-serif; }
@@ -47,6 +47,10 @@
         <div class="flex items-center gap-1 text-[11px]">
           <a href="v0.6/" class="px-2.5 py-1 rounded-full bg-slate-50 text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">v0.6</a>
           <span class="px-2.5 py-1 rounded-full bg-[#92711A] text-white font-semibold">v0.9</span>
+        </div>
+        <div id="header-user-chip" class="hidden sm:flex items-center gap-2 pl-3 border-l border-slate-200">
+          <span id="header-user-name" class="text-[11px] text-slate-400">Eoin Lane</span>
+          <div id="header-user-initials" class="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-semibold text-slate-500">EL</div>
         </div>
       </div>
     </div>
@@ -828,6 +832,22 @@
         requestAnimationFrame(()=>setTimeout(()=>plannerChange(pid,c.customer_id),80));
       }
     }
+
+    // ── Persona chip (read from sessionStorage set by landing-page login) ─
+    const AURUM_USERS = {
+      eoin: { name: 'Eoin Lane',        initials: 'EL' },
+      guy:  { name: 'Guy Rackham',      initials: 'GR' },
+      jan:  { name: 'Jan-Willem Ophof', initials: 'JO' },
+    };
+    (function applyUser() {
+      let saved = null;
+      try { saved = sessionStorage.getItem('aurum_user'); } catch (_) {}
+      const u = AURUM_USERS[saved] || AURUM_USERS.eoin;
+      const nameEl = document.getElementById('header-user-name');
+      const initEl = document.getElementById('header-user-initials');
+      if (nameEl) nameEl.textContent = u.name;
+      if (initEl) initEl.textContent = u.initials;
+    })();
 
     // ── Boot ──────────────────────────────────────────────────────────
     (function init() {

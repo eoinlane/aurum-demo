@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aurum — Wealth Intelligence Platform</title>
-  <link rel="stylesheet" href="tailwind.css?v=0.9.3" />
-  <script src="cohort.js?v=0.9.3"></script>
+  <link rel="stylesheet" href="tailwind.css?v=0.9.4" />
+  <script src="cohort.js?v=0.9.4"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     body { font-family: 'Inter', system-ui, sans-serif; }
@@ -19,13 +19,36 @@
 
   <!-- ── Sign-in overlay (theatrical — no real auth) ──────────────────── -->
   <div id="login-screen" class="fixed inset-0 z-50 bg-white flex items-center justify-center">
-    <div class="w-full max-w-sm px-8">
-      <div class="flex items-center justify-center gap-3 mb-12">
+    <div class="w-full max-w-md px-8">
+      <div class="flex items-center justify-center gap-3 mb-8">
         <div class="w-10 h-10 rounded-xl gold-bg flex items-center justify-center">
           <span class="text-white font-bold text-base">A</span>
         </div>
         <span class="font-semibold tracking-wide text-2xl text-slate-900">AURUM</span>
       </div>
+
+      <p class="text-center text-[11px] text-slate-400 uppercase tracking-widest mb-3">Continue as</p>
+      <div class="grid grid-cols-3 gap-3 mb-6">
+        <button type="button" data-user="eoin" onclick="selectUser('eoin')"
+                class="persona-tile px-3 py-4 rounded-xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-colors text-center">
+          <div class="w-10 h-10 mx-auto rounded-xl bg-slate-100 flex items-center justify-center text-xs font-semibold text-slate-500">EL</div>
+          <p class="mt-2 text-xs font-semibold text-slate-700 truncate">Eoin Lane</p>
+          <p class="text-[10px] text-slate-400 leading-tight">Wealth Manager</p>
+        </button>
+        <button type="button" data-user="guy" onclick="selectUser('guy')"
+                class="persona-tile px-3 py-4 rounded-xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-colors text-center">
+          <div class="w-10 h-10 mx-auto rounded-xl bg-slate-100 flex items-center justify-center text-xs font-semibold text-slate-500">GR</div>
+          <p class="mt-2 text-xs font-semibold text-slate-700 truncate">Guy Rackham</p>
+          <p class="text-[10px] text-slate-400 leading-tight">Co-Founder</p>
+        </button>
+        <button type="button" data-user="jan" onclick="selectUser('jan')"
+                class="persona-tile px-3 py-4 rounded-xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-colors text-center">
+          <div class="w-10 h-10 mx-auto rounded-xl bg-slate-100 flex items-center justify-center text-xs font-semibold text-slate-500">JO</div>
+          <p class="mt-2 text-xs font-semibold text-slate-700 truncate">Jan-Willem</p>
+          <p class="text-[10px] text-slate-400 leading-tight">Advisor</p>
+        </button>
+      </div>
+
       <form onsubmit="handleLogin(event)" class="space-y-4" autocomplete="off">
         <div>
           <label for="login-email" class="text-[11px] font-medium text-slate-500 uppercase tracking-wide">Email</label>
@@ -49,18 +72,62 @@
           Sign in
         </button>
       </form>
-      <p class="mt-10 text-center text-[10px] text-slate-300">v0.9 · Demo · synthetic data only</p>
+      <p class="mt-8 text-center text-[10px] text-slate-300">v0.9 · Demo · synthetic data only</p>
     </div>
   </div>
 
   <script>
+    // ── Personas (theatrical — anyone can sign in as anyone) ────────────
+    const AURUM_USERS = {
+      eoin: { name: 'Eoin Lane',        first: 'Eoin', email: 'eoin.lane@aurum.ie',   title: 'Senior Wealth Manager', initials: 'EL' },
+      guy:  { name: 'Guy Rackham',      first: 'Guy',  email: 'guy.rackham@aurum.ie', title: 'Co-Founder',            initials: 'GR' },
+      jan:  { name: 'Jan-Willem Ophof', first: 'Jan',  email: 'jan.ophof@aurum.ie',   title: 'Advisor',               initials: 'JO' },
+    };
+    let aurumSelectedUser = 'eoin';
+
+    function selectUser(key) {
+      const u = AURUM_USERS[key];
+      if (!u) return;
+      aurumSelectedUser = key;
+      document.getElementById('login-email').value = u.email;
+      document.querySelectorAll('.persona-tile').forEach(t => {
+        const on = t.dataset.user === key;
+        t.classList.toggle('border-[#92711A]', on);
+        t.classList.toggle('bg-[#92711A]/5',  on);
+        t.classList.toggle('border-slate-200', !on);
+      });
+    }
+
+    function applyUserToPage(key) {
+      const u = AURUM_USERS[key] || AURUM_USERS.eoin;
+      const nameEl = document.getElementById('header-user-name');
+      const initEl = document.getElementById('header-user-initials');
+      const greetEl = document.getElementById('greeting');
+      if (nameEl)  nameEl.textContent  = `${u.name} · ${u.title}`;
+      if (initEl)  initEl.textContent  = u.initials;
+      if (greetEl) greetEl.textContent = `Welcome back, ${u.first}`;
+    }
+
     function handleLogin(e) {
       e.preventDefault();
+      try { sessionStorage.setItem('aurum_user', aurumSelectedUser); } catch (_) {}
+      applyUserToPage(aurumSelectedUser);
       const screen = document.getElementById('login-screen');
       screen.style.transition = 'opacity 0.25s ease';
       screen.style.opacity = '0';
       setTimeout(() => { screen.style.display = 'none'; }, 250);
     }
+
+    // Pre-select last persona used (if any); apply name to header immediately
+    // so the page is correct even before the user clicks Sign in.
+    (function() {
+      let saved = null;
+      try { saved = sessionStorage.getItem('aurum_user'); } catch (_) {}
+      const key = AURUM_USERS[saved] ? saved : 'eoin';
+      selectUser(key);
+      // Defer applyUserToPage until DOM is ready (header elements exist)
+      document.addEventListener('DOMContentLoaded', () => applyUserToPage(key));
+    })();
   </script>
 
   <!-- ── Header ──────────────────────────────────────────────────────── -->
@@ -75,8 +142,8 @@
         <span class="text-slate-400 text-sm">Wealth Intelligence Platform</span>
       </div>
       <div class="flex items-center gap-3">
-        <span class="text-xs text-slate-400">Eoin Lane · Senior Wealth Manager</span>
-        <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[11px] font-semibold text-slate-500">EL</div>
+        <span id="header-user-name" class="text-xs text-slate-400">Eoin Lane · Senior Wealth Manager</span>
+        <div id="header-user-initials" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[11px] font-semibold text-slate-500">EL</div>
       </div>
     </div>
   </header>
@@ -85,7 +152,7 @@
 
     <!-- ── Greeting + day frame ──────────────────────────────────────── -->
     <section>
-      <h1 class="text-2xl font-semibold text-slate-900">Welcome back, Eoin</h1>
+      <h1 id="greeting" class="text-2xl font-semibold text-slate-900">Welcome back, Eoin</h1>
       <p id="day-frame" class="text-sm text-slate-500 mt-1"></p>
     </section>
 
