@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aurum — Wealth Intelligence Platform</title>
-  <link rel="stylesheet" href="tailwind.css?v=0.9.5" />
-  <script src="cohort.js?v=0.9.5"></script>
-  <script src="scenario.js?v=0.9.5"></script>
+  <link rel="stylesheet" href="tailwind.css?v=0.9.6" />
+  <script src="cohort.js?v=0.9.6"></script>
+  <script src="scenario.js?v=0.9.6"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     body { font-family: 'Inter', system-ui, sans-serif; }
@@ -31,9 +31,15 @@
     <div class="px-5 py-3.5 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <div class="w-8 h-8 rounded-lg gold-bg flex items-center justify-center">
-            <span class="text-white font-bold text-sm">A</span>
-          </div>
+          <svg viewBox="0 0 100 100" class="w-8 h-8 flex-shrink-0" aria-label="Aurum">
+            <path d="M 50 6 L 67 40 L 33 40 Z" fill="#5E4509"/>
+            <path d="M 33 40 L 50 40 L 28 80 L 50 94 L 6 94 Z" fill="#B89438"/>
+            <path d="M 67 40 L 50 40 L 72 80 L 50 94 L 94 94 Z" fill="#92711A"/>
+            <g stroke="#ffffff" stroke-width="0.8" fill="none">
+              <line x1="33" y1="40" x2="67" y2="40"/>
+              <line x1="50" y1="40" x2="50" y2="94"/>
+            </g>
+          </svg>
           <span class="font-semibold text-slate-900 tracking-wide">AURUM</span>
         </a>
         <span class="text-slate-300 text-sm hidden sm:inline">|</span>
