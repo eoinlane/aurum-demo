@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aurum — Wealth Intelligence Platform</title>
-  <link rel="stylesheet" href="tailwind.css?v=0.9.4" />
-  <script src="cohort.js?v=0.9.4"></script>
-  <script src="scenario.js?v=0.9.4"></script>
+  <link rel="stylesheet" href="tailwind.css?v=0.9.5" />
+  <script src="cohort.js?v=0.9.5"></script>
+  <script src="scenario.js?v=0.9.5"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     body { font-family: 'Inter', system-ui, sans-serif; }
@@ -51,6 +51,7 @@
         <div id="header-user-chip" class="hidden sm:flex items-center gap-2 pl-3 border-l border-slate-200">
           <span id="header-user-name" class="text-[11px] text-slate-400">Eoin Lane</span>
           <div id="header-user-initials" class="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-semibold text-slate-500">EL</div>
+          <a href="#" onclick="signOut(event)" class="text-[11px] text-slate-400 hover:text-slate-700">Sign out</a>
         </div>
       </div>
     </div>
@@ -848,6 +849,12 @@
       if (nameEl) nameEl.textContent = u.name;
       if (initEl) initEl.textContent = u.initials;
     })();
+
+    function signOut(e) {
+      if (e) e.preventDefault();
+      try { sessionStorage.removeItem('aurum_user'); } catch (_) {}
+      window.location.href = 'index.html';
+    }
 
     // ── Boot ──────────────────────────────────────────────────────────
     (function init() {
