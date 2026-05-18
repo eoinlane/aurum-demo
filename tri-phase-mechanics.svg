@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360"
+     role="img" aria-label="Tri-state mechanics: Liquidity, Solvency, Prosperity with flow arrows between them">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <!-- Flow arrows (drawn first so they sit behind the nodes) -->
+
+  <!-- L ↔ S (left diagonal) -->
+  <line x1="208" y1="114" x2="137" y2="236" stroke="#94a3b8" stroke-width="1.5"
+        marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="120" y="170" text-anchor="end" font-family="Inter,sans-serif" font-size="11" fill="#475569">Commit</text>
+  <text x="120" y="184" text-anchor="end" font-family="Inter,sans-serif" font-size="11" fill="#475569">Redeem</text>
+
+  <!-- L ↔ P (right diagonal) -->
+  <line x1="272" y1="114" x2="343" y2="236" stroke="#94a3b8" stroke-width="1.5"
+        marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="360" y="170" text-anchor="start" font-family="Inter,sans-serif" font-size="11" fill="#475569">Purchase</text>
+  <text x="360" y="184" text-anchor="start" font-family="Inter,sans-serif" font-size="11" fill="#475569">Liquidate</text>
+
+  <!-- S ↔ P (bottom horizontal) -->
+  <line x1="168" y1="290" x2="312" y2="290" stroke="#94a3b8" stroke-width="1.5"
+        marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="240" y="280" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#475569">Capitalize</text>
+  <text x="240" y="316" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#475569">Collateralize</text>
+
+  <!-- Nodes (drawn after arrows so they sit on top) -->
+  <g font-family="Inter,sans-serif">
+    <!-- Liquidity (apex) -->
+    <circle cx="240" cy="60" r="55" fill="#60a5fa"/>
+    <text x="240" y="55" text-anchor="middle" font-size="13" font-weight="700"
+          fill="white" letter-spacing="0.5">LIQUIDITY</text>
+    <text x="240" y="74" text-anchor="middle" font-size="9" fill="white" opacity="0.85">
+      Cash · purchasing power
+    </text>
+
+    <!-- Solvency (bottom-left) -->
+    <circle cx="105" cy="290" r="55" fill="#34d399"/>
+    <text x="105" y="285" text-anchor="middle" font-size="13" font-weight="700"
+          fill="white" letter-spacing="0.5">SOLVENCY</text>
+    <text x="105" y="303" text-anchor="middle" font-size="9" fill="white" opacity="0.85">
+      Loans · credit
+    </text>
+
+    <!-- Prosperity (bottom-right) -->
+    <circle cx="375" cy="290" r="55" fill="#c084fc"/>
+    <text x="375" y="285" text-anchor="middle" font-size="13" font-weight="700"
+          fill="white" letter-spacing="0.5">PROSPERITY</text>
+    <text x="375" y="303" text-anchor="middle" font-size="9" fill="white" opacity="0.85">
+      Performing assets
+    </text>
+  </g>
+</svg>

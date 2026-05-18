@@ -7,9 +7,9 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
-  <link rel="stylesheet" href="tailwind.css?v=0.9.9" />
-  <script src="cohort.js?v=0.9.9"></script>
-  <script src="scenario.js?v=0.9.9"></script>
+  <link rel="stylesheet" href="tailwind.css?v=0.9.10" />
+  <script src="cohort.js?v=0.9.10"></script>
+  <script src="scenario.js?v=0.9.10"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     body { font-family: 'Inter', system-ui, sans-serif; }
@@ -455,14 +455,24 @@
       return { years, values, phases, depleted, final: Math.max(0,v) };
     }
 
+    // Logical pixel height of the planner canvas — matches the `height` attr
+    // on the <canvas> element. Hard-coded rather than read from canvas.height
+    // because canvas.height gets overwritten with W*DPR below; reading it on
+    // the next call compounded the size and pushed the drawing off-screen
+    // (issue #22 — "sliders make it disappear").
+    const PLANNER_CANVAS_H = 130;
+
     function drawPlannerCanvas(canvasId, data, totalAssets, floor, yearsActive) {
       const canvas = document.getElementById(canvasId);
       if (!canvas) return;
       const DPR = window.devicePixelRatio||1;
-      const W=canvas.offsetWidth, H=canvas.height;
-      canvas.width=W*DPR; canvas.height=H*DPR;
-      const ctx=canvas.getContext('2d');
-      ctx.scale(DPR,DPR);
+      const W = canvas.offsetWidth, H = PLANNER_CANVAS_H;
+      canvas.width = W*DPR; canvas.height = H*DPR;
+      canvas.style.height = H + 'px';
+      const ctx = canvas.getContext('2d');
+      // Setting canvas.width/height resets the transform stack, so this scale
+      // is applied cleanly each redraw rather than compounding.
+      ctx.scale(DPR, DPR);
 
       const pad={t:10,r:15,b:26,l:58};
       const cw=W-pad.l-pad.r, ch=H-pad.t-pad.b;
@@ -695,7 +705,20 @@
 
           <!-- ── Tri-State Trident ──────────────────────────────── -->
           <div>
-            <h3 class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-3">Tri-State Analysis</h3>
+            <div class="flex items-baseline justify-between mb-3">
+              <h3 class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Tri-State Analysis</h3>
+              <span class="text-[10px] text-slate-400 hidden sm:block">Three states · six flows · one balance</span>
+            </div>
+
+            <!-- Tri-phase mechanics infographic — the three states and the flow
+                 between them. Closes audit issue #23. -->
+            <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 mb-4">
+              <img src="tri-phase-mechanics.svg" alt="Tri-state mechanics: Liquidity at apex with bidirectional flows to Solvency and Prosperity at the base"
+                   class="block mx-auto" style="max-width:480px;width:100%;height:auto;"/>
+              <p class="text-[10px] text-slate-400 text-center mt-2">
+                Cash flow rebalances between three states. Aurum scores each, and the imbalance between them is the engagement signal.
+              </p>
+            </div>
 
             <!-- Liquidity (top, full width) -->
             ${renderThreeBoxPanel({
